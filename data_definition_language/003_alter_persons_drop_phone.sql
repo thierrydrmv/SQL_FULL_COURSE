@@ -1,0 +1,2 @@
+ALTER TABLE persons
+DROP COLUMN phone
