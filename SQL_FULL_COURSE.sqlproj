@@ -8,7 +8,8 @@
     <ModelCollation>1033, CI</ModelCollation>
   </PropertyGroup>
   <ItemGroup>
-    <None Include=".vscode\tasks.json" />
+    <Build Include="scripts\init-sqlserver-mydatabase.sql" />
+    <Build Include="scripts\init-sqlserver-salesdb.sql" />
   </ItemGroup>
   <Target Name="BeforeBuild">
     <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json" />
