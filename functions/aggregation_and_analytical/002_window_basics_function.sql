@@ -32,3 +32,40 @@ FROM Sales.Orders
 -- Can only be used together with ORDER BY
 -- Lower Value must be BEFORE the higher Value
 -- ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING (framing has a lot of possibilities and is write like english read de doc)
+SELECT
+    OrderID,
+    OrderDate,
+    OrderStatus,
+    Sales,
+    SUM(Sales) OVER (PARTITION BY OrderStatus ORDER BY OrderDate
+    -- ROWS BETWEEN CURRENT ROW AND 2 FOLLOWING) TotalSales -- -> frame will go down calculating
+    ROWS 2 PRECEDING) TotalSales
+FROM Sales.Orders
+
+-- COMPACT FRAME
+-- NORMAL FORM: ROWS BETWEEN CURRENT ROW AND 2 FOLLOWING
+-- SHORT FORM: ROWS 2 FOLLOWING
+
+-- RULES:
+-- 1.Window functions can be used only in select and order by clauses
+-- 2.Nested window functions are not allowed
+-- 3.Use Window Functions after the WHERE clause
+
+SELECT
+    OrderID,
+    OrderDate,
+    OrderStatus,
+    ProductID,
+    Sales,
+    SUM(Sales) OVER (PARTITION BY OrderStatus) TotalSales
+FROM Sales.Orders
+WHERE ProductID IN (101, 102)
+
+-- 4.Use Window Function can be used together with GROUP BY in the same query, ONLY if the same columns are used
+
+SELECT
+    CustomerID,
+    SUM(Sales) TotalSales,
+    RANK() OVER (ORDER BY SUM(Sales) DESC) RankCustomers
+FROM Sales.Orders
+GROUP BY CustomerID
