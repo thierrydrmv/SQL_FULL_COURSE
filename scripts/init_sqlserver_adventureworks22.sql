@@ -1,0 +1,3 @@
+-- https://learn.microsoft.com/en-us/sql/samples/adventureworks-install-configure?view=sql-server-ver17&tabs=ssms
+-- restore inside the container
+-- docker cp ~/Downloads/AdventureWorks2022.bak {containerID}:/var/opt/mssql/data/
